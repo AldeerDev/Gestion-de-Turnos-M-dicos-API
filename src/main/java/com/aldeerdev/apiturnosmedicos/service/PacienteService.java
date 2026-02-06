@@ -17,6 +17,10 @@ public class PacienteService {
 	public Paciente crearPaciente(Paciente paciente) {
 		return repository.save(paciente);
 	}
+	
+	public Paciente obtenerPacientePorId(Long id) {
+		return repository.findById(id).orElse(null);
+	}
 
 	public List<Paciente> listarPacientes() {
 		return repository.findAll();
