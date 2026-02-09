@@ -3,6 +3,7 @@ package com.aldeerdev.apiturnosmedicos.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,5 +38,11 @@ public class PacienteController {
 	@PutMapping("/pacientes/{id}")
 	public Paciente actualizarPaciente(@PathVariable Long id, @RequestBody Paciente paciente) {
 		return service.actualizarPaciente(id, paciente);
+	}
+	
+	@DeleteMapping("/pacientes/{id}")
+	public String eliminarPaciente(@PathVariable Long id) {
+		service.eliminarPaciente(id);
+		return "Paciente eliminado con exito!";
 	}
 }

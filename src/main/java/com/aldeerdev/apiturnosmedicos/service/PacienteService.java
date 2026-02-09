@@ -35,4 +35,10 @@ public class PacienteService {
 		actualizado.setFechaNacimiento(paciente.getFechaNacimiento());
 		return repository.save(actualizado);
 	}
+	
+	public void eliminarPaciente(Long id) {
+		Paciente pacienteBaja = repository.findById(id).orElse(null);
+		pacienteBaja.setActivo(false);
+		repository.save(pacienteBaja);
+	}
 }
