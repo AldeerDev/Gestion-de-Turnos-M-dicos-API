@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.aldeerdev.apiturnosmedicos.exception.MedicoNotFoundException;
+import com.aldeerdev.apiturnosmedicos.exception.MedicoOcupadoException;
 import com.aldeerdev.apiturnosmedicos.exception.PacienteNotFoundException;
 import com.aldeerdev.apiturnosmedicos.exception.TurnoEnElPasadoException;
 
@@ -16,14 +17,19 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> handlePacienteNotFound(PacienteNotFoundException ex) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 	}
-	
+
 	@ExceptionHandler(MedicoNotFoundException.class)
 	public ResponseEntity<String> handleMedicoNotFound(MedicoNotFoundException ex) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 	}
-	
+
 	@ExceptionHandler(TurnoEnElPasadoException.class)
 	public ResponseEntity<String> handleTurnoEnElPasado(TurnoEnElPasadoException ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+	}
+
+	@ExceptionHandler(MedicoOcupadoException.class)
+	public ResponseEntity<String> handleMedicoOcupado(MedicoOcupadoException ex) {
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
 	}
 }
