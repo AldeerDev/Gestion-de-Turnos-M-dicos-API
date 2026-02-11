@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aldeerdev.apiturnosmedicos.exception.MedicoOcupadoException;
+import com.aldeerdev.apiturnosmedicos.exception.PacienteOcupadoException;
 import com.aldeerdev.apiturnosmedicos.exception.TurnoEnElPasadoException;
 import com.aldeerdev.apiturnosmedicos.model.Medico;
 import com.aldeerdev.apiturnosmedicos.model.Paciente;
@@ -35,8 +36,17 @@ public class TurnoService {
 			throw new TurnoEnElPasadoException();
 		}
 
-		// valida disponibilidad del medico en fecha y hora
 		List<Turno> turnos = turnoRep.findAll();
+
+		// validar si el paciente tiene un turno pendiente el la fecha y hora
+		boolean pacienteOcupado = turnos.stream().filter(t -> t.getPaciente().getId().equals(paciente.getId()))
+				.filter(t -> t.getFecha().equals(turno.getFecha())).anyMatch(t -> t.getHora().equals(turno.getHora()));
+
+		if (pacienteOcupado) {
+			throw new PacienteOcupadoException();
+		}
+
+		// valida disponibilidad del medico en fecha y hora
 		boolean medicoOcupado = turnos.stream().filter(t -> t.getMedico().getId().equals(medico.getId()))
 				.filter(t -> t.getFecha().equals(turno.getFecha())).anyMatch(t -> t.getHora().equals(turno.getHora()));
 
