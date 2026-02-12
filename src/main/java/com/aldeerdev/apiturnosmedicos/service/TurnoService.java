@@ -57,9 +57,12 @@ public class TurnoService {
 		turno.setEstado(EstadoTurno.CONFIRMADO);
 		return turnoRep.save(turno);
 	}
-	
-	public List<Turno> listarTurnos() {
-		return turnoRep.findAll();
+
+	public List<Turno> listarTurnos(LocalDate fecha) {
+		if (fecha == null) {
+			return turnoRep.findAll();
+		}
+		return turnoRep.findAll().stream().filter(t -> t.getFecha().equals(fecha)).toList();
 	}
 
 	private void validarMedicoDisponible(Medico medico, LocalDate fecha, LocalTime hora) {

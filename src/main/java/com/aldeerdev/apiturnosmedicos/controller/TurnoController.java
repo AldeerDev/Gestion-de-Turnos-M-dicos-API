@@ -1,9 +1,9 @@
 package com.aldeerdev.apiturnosmedicos.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +20,8 @@ public class TurnoController {
 	private TurnoService service;
 
 	@GetMapping("/turnos")
-	public ResponseEntity<List<Turno>> listar() {
-		return ResponseEntity.ok(service.listarTurnos());
+	public List<Turno> listar(@RequestParam(required = false ) LocalDate fecha) {
+		return service.listarTurnos(fecha);
 	}
 
 	@PostMapping("/turnos")
