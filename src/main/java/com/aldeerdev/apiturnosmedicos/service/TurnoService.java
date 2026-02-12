@@ -57,6 +57,10 @@ public class TurnoService {
 		turno.setEstado(EstadoTurno.CONFIRMADO);
 		return turnoRep.save(turno);
 	}
+	
+	public List<Turno> listarTurnos() {
+		return turnoRep.findAll();
+	}
 
 	private void validarMedicoDisponible(Medico medico, LocalDate fecha, LocalTime hora) {
 		LocalTime finNuevoTurno = hora.plusMinutes(DURACION_TURNO_MINUTOS);
