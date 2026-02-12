@@ -1,6 +1,7 @@
 package com.aldeerdev.apiturnosmedicos.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import com.aldeerdev.apiturnosmedicos.repository.TurnoRepository;
 
 @Service
 public class TurnoService {
+
+	private static final int DURACION_TURNO_MINUTOS = 30;
 
 	@Autowired
 	private TurnoRepository turnoRep;
@@ -47,16 +50,25 @@ public class TurnoService {
 		}
 
 		// valida disponibilidad del medico en fecha y hora
-		boolean medicoOcupado = turnos.stream().filter(t -> t.getMedico().getId().equals(medico.getId()))
-				.filter(t -> t.getFecha().equals(turno.getFecha())).anyMatch(t -> t.getHora().equals(turno.getHora()));
-
-		if (medicoOcupado) {
-			throw new MedicoOcupadoException();
-		}
+		validarMedicoDisponible(medico, turno.getFecha(), turno.getHora());
 
 		turno.setPaciente(paciente);
 		turno.setMedico(medico);
 		turno.setEstado(EstadoTurno.CONFIRMADO);
 		return turnoRep.save(turno);
+	}
+
+	private void validarMedicoDisponible(Medico medico, LocalDate fecha, LocalTime hora) {
+		LocalTime finNuevoTurno = hora.plusMinutes(DURACION_TURNO_MINUTOS);
+		boolean haySolapamiento = turnoRep.findAll().stream().filter(t -> t.getMedico().getId().equals(medico.getId()))
+				.filter(t -> t.getFecha().equals(fecha)).anyMatch(turnoExistente -> {
+					LocalTime inicioTurnoExistente = turnoExistente.getHora();
+					LocalTime finTurnoExistente = inicioTurnoExistente.plusMinutes(DURACION_TURNO_MINUTOS);
+
+					return hora.isBefore(finTurnoExistente) && finNuevoTurno.isAfter(inicioTurnoExistente);
+				});
+		if (haySolapamiento) {
+			throw new MedicoOcupadoException();
+		}
 	}
 }
