@@ -1,13 +1,15 @@
 package com.aldeerdev.apiturnosmedicos.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aldeerdev.apiturnosmedicos.dto.medico.MedicoRequestDTO;
+import com.aldeerdev.apiturnosmedicos.dto.medico.MedicoResponseDTO;
 import com.aldeerdev.apiturnosmedicos.exception.MedicoInactivoException;
 import com.aldeerdev.apiturnosmedicos.exception.MedicoNotFoundException;
+import com.aldeerdev.apiturnosmedicos.mapper.MedicoMapper;
 import com.aldeerdev.apiturnosmedicos.model.Medico;
 import com.aldeerdev.apiturnosmedicos.repository.MedicoRepository;
 
@@ -17,8 +19,10 @@ public class MedicoService {
 	@Autowired
 	private MedicoRepository repository;
 
-	public Medico crearMedico(Medico medico) {
-		return repository.save(medico);
+	public MedicoResponseDTO crearMedico(MedicoRequestDTO dto) {
+		Medico medicoNuevo = MedicoMapper.toEntity(dto);
+		repository.save(medicoNuevo);
+		return MedicoMapper.toDTO(medicoNuevo);
 	}
 
 	public List<Medico> listarMedicosPorEspecialidad(String especialidad) {
