@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aldeerdev.apiturnosmedicos.dto.medico.MedicoRequestDTO;
 import com.aldeerdev.apiturnosmedicos.dto.medico.MedicoResponseDTO;
-import com.aldeerdev.apiturnosmedicos.model.Medico;
 import com.aldeerdev.apiturnosmedicos.service.MedicoService;
 
 @RestController
@@ -38,8 +37,8 @@ public class MedicoController {
 	}
 	
 	@PutMapping("/medicos/{id}")
-	public Medico actualizarMedico(@PathVariable Long id, @RequestBody Medico medico) {
-		return service.actualizarMedico(id, medico);
+	public MedicoResponseDTO actualizarMedico(@PathVariable Long id, @RequestBody MedicoRequestDTO dto) {
+		return service.actualizarMedico(id, dto);
 	}
 	
 	@DeleteMapping("/medicos/{id}")
