@@ -25,8 +25,10 @@ public class MedicoService {
 		return MedicoMapper.toDTO(medicoNuevo);
 	}
 
-	public List<Medico> listarMedicosPorEspecialidad(String especialidad) {
-		return repository.findAll().stream().filter(m -> m.getEspecialidad().equals(especialidad)).toList();
+	public List<MedicoResponseDTO> listarMedicosPorEspecialidad(String especialidad) {
+		return repository.findAll().stream().filter(m -> m.getEspecialidad().equals(especialidad))
+				.map(MedicoMapper::toDTO)
+				.toList();
 	}
 
 	public Medico obtenerMedicoPorId(Long id) {
