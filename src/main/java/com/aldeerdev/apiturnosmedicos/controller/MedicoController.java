@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aldeerdev.apiturnosmedicos.dto.medico.MedicoRequestDTO;
+import com.aldeerdev.apiturnosmedicos.dto.medico.MedicoResponseDTO;
 import com.aldeerdev.apiturnosmedicos.model.Medico;
 import com.aldeerdev.apiturnosmedicos.service.MedicoService;
 
@@ -32,8 +34,8 @@ public class MedicoController {
 	}
 
 	@PostMapping("/medicos")
-	public Medico crearMedico(@RequestBody Medico medico) {
-		return service.crearMedico(medico);
+	public MedicoResponseDTO crearMedico(@RequestBody MedicoRequestDTO dto) {
+		return service.crearMedico(dto);
 	}
 	
 	@PutMapping("/medicos/{id}")
