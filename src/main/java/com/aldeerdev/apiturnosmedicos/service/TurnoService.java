@@ -33,7 +33,7 @@ public class TurnoService {
 
 	public Turno crearTurno(Long idPaciente, Long idMedico, Turno turno) {
 		Paciente paciente = pacienteServ.obtenerPacientePorId(idPaciente);
-		Medico medico = medicoServ.obtenerMedicoPorId(idMedico);
+		Medico medico = medicoServ.obtenerEntidadPorId(idMedico);
 
 		// valida si la fecha del turno no es pasada
 		if (turno.getFecha().isBefore(LocalDate.now())) {
