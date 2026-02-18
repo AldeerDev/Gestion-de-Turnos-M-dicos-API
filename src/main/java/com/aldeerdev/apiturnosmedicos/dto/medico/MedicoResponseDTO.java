@@ -7,17 +7,18 @@ public class MedicoResponseDTO {
 	private String apellido;
 	private String especialidad;
 	private String matricula;
-	private Boolean activo;
 
-	public MedicoResponseDTO(Long id, String nombre, String apellido, String especialidad, String matricula,
-			Boolean activo) {
+	public MedicoResponseDTO() {
+		super();
+	}
+
+	public MedicoResponseDTO(Long id, String nombre, String apellido, String especialidad, String matricula) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.especialidad = especialidad;
 		this.matricula = matricula;
-		this.activo = activo;
 	}
 
 	public Long getId() {
@@ -58,14 +59,6 @@ public class MedicoResponseDTO {
 
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
-	}
-
-	public Boolean getActivo() {
-		return activo;
-	}
-
-	public void setActivo(Boolean activo) {
-		this.activo = activo;
 	}
 
 }
